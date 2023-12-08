@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import MenuLink from "./menuLink/menuLink";
 import styles from "./sidebar.module.css";
 import {
@@ -103,10 +104,12 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-      <button className={styles.logout}>
-        <MdLogout />
-        Logout
-      </button>
+      <Link href="/login">
+        <button className={styles.logout}>
+          <MdLogout />
+          Logout
+        </button>
+      </Link>
     </div>
   );
 };
