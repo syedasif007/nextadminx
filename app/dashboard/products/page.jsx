@@ -49,7 +49,7 @@ const ProductsPage = () => {
             <td>100</td>
             <td>
               <div className={styles.buttons}>
-                <Link href="/">
+                <Link href="/dashboard/products/view">
                   <button
                     title="View"
                     className={`${styles.button} ${styles.btnView}`}
@@ -93,7 +93,7 @@ const ProductsPage = () => {
             <td>100</td>
             <td>
               <div className={styles.buttons}>
-                <Link href="/">
+                <Link href="/dashboard/products/view">
                   <button
                     title="View"
                     className={`${styles.button} ${styles.btnView}`}
@@ -137,7 +137,7 @@ const ProductsPage = () => {
             <td>100</td>
             <td>
               <div className={styles.buttons}>
-                <Link href="/">
+                <Link href="/dashboard/products/view">
                   <button
                     title="View"
                     className={`${styles.button} ${styles.btnView}`}

@@ -53,7 +53,7 @@ const UsersPage = () => {
             </td>
             <td>
               <div className={styles.buttons}>
-                <Link href="/dashboard/users/test">
+                <Link href="/dashboard/users/view">
                   <button
                     title="View"
                     className={`${styles.button} ${styles.btnView}`}
@@ -149,7 +149,7 @@ const UsersPage = () => {
             </td>
             <td>
               <div className={styles.buttons}>
-                <Link href="/">
+                <Link href="/dashboard/users/view">
                   <button
                     title="View"
                     className={`${styles.button} ${styles.btnView}`}
