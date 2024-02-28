@@ -8,8 +8,15 @@ import {
   MdOutlineEdit,
   MdOutlineRemoveRedEye,
 } from "react-icons/md";
+import { fetchUsers } from "@/app/lib/data";
 
-const UsersPage = () => {
+const UsersPage = async ({ searchParams }) => {
+  const q = searchParams?.q || "";
+  const page = searchParams?.page || 1;
+  const { count, users } = await fetchUsers(q, page);
+
+  // console.log(users);
+
   return (
     <div className={styles.container}>
       <div className={styles.top}>
@@ -30,153 +37,59 @@ const UsersPage = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/noavatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                Devon Conway
-              </div>
-            </td>
-            <td>devon99@gmail.com</td>
-            <td>12.08.2023</td>
-            <td>Admin</td>
-            <td>
-              <span className={`${styles.status} ${styles.active}`}>
-                active
-              </span>
-            </td>
-            <td>
-              <div className={styles.buttons}>
-                <Link href="/dashboard/users/view">
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td>
+                <div className={styles.user}>
+                  <Image
+                    src={user.img}
+                    alt=""
+                    width={40}
+                    height={40}
+                    className={styles.userImage}
+                  />
+                  {user.username}
+                </div>
+              </td>
+              <td>{user.email}</td>
+              <td>{user.createdAt.toString().slice(4, 16)}</td>
+              <td>{user.isAdmin ? "Admin" : "Client"}</td>
+              <td>
+                <span className={`${styles.status} ${styles.active}`}>
+                  {user.isActive ? "active" : "inactive"}
+                </span>
+              </td>
+              <td>
+                <div className={styles.buttons}>
+                  <Link href={`/dashboard/users/${user.id}`}>
+                    <button
+                      title="View"
+                      className={`${styles.button} ${styles.btnView}`}
+                    >
+                      <MdOutlineRemoveRedEye size={20} />
+                    </button>
+                  </Link>
+                  <Link href="/">
+                    <button
+                      title="Edit"
+                      className={`${styles.button} ${styles.btnEdit}`}
+                    >
+                      <MdOutlineEdit size={20} />
+                    </button>
+                  </Link>
                   <button
-                    title="View"
-                    className={`${styles.button} ${styles.btnView}`}
+                    title="Delete"
+                    className={`${styles.button} ${styles.btnDelete}`}
                   >
-                    <MdOutlineRemoveRedEye size={20} />
+                    <MdOutlineDelete size={20} />
                   </button>
-                </Link>
-                <Link href="/">
-                  <button
-                    title="Edit"
-                    className={`${styles.button} ${styles.btnEdit}`}
-                  >
-                    <MdOutlineEdit size={20} />
-                  </button>
-                </Link>
-                <button
-                  title="Delete"
-                  className={`${styles.button} ${styles.btnDelete}`}
-                >
-                  <MdOutlineDelete size={20} />
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/noavatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                Peter Parker
-              </div>
-            </td>
-            <td>peter.parker@gmail.com</td>
-            <td>12.08.2023</td>
-            <td>Manager</td>
-            <td>
-              <span className={`${styles.status} ${styles.active}`}>
-                active
-              </span>
-            </td>
-            <td>
-              <div className={styles.buttons}>
-                <Link href="/dashboard/users/view">
-                  <button
-                    title="View"
-                    className={`${styles.button} ${styles.btnView}`}
-                  >
-                    <MdOutlineRemoveRedEye size={20} />
-                  </button>
-                </Link>
-                <Link href="/">
-                  <button
-                    title="Edit"
-                    className={`${styles.button} ${styles.btnEdit}`}
-                  >
-                    <MdOutlineEdit size={20} />
-                  </button>
-                </Link>
-                <button
-                  title="Delete"
-                  className={`${styles.button} ${styles.btnDelete}`}
-                >
-                  <MdOutlineDelete size={20} />
-                </button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/noavatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                Cole Palmer
-              </div>
-            </td>
-            <td>palmer89@gmail.com</td>
-            <td>12.08.2023</td>
-            <td>Employee</td>
-            <td>
-              <span className={`${styles.status} ${styles.inactive}`}>
-                inactive
-              </span>
-            </td>
-            <td>
-              <div className={styles.buttons}>
-                <Link href="/dashboard/users/view">
-                  <button
-                    title="View"
-                    className={`${styles.button} ${styles.btnView}`}
-                  >
-                    <MdOutlineRemoveRedEye size={20} />
-                  </button>
-                </Link>
-                <Link href="/">
-                  <button
-                    title="Edit"
-                    className={`${styles.button} ${styles.btnEdit}`}
-                  >
-                    <MdOutlineEdit size={20} />
-                  </button>
-                </Link>
-                <button
-                  title="Delete"
-                  className={`${styles.button} ${styles.btnDelete}`}
-                >
-                  <MdOutlineDelete size={20} />
-                </button>
-              </div>
-            </td>
-          </tr>
+                </div>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      <Pagination />
+      <Pagination count={count} />
     </div>
   );
 };
